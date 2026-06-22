@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Атлант — Тренеры и расписание</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f4f8;
+      color: #1e2a3e;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ========== ШАПКА ========== */
+    .header {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #1e2a3e;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav a:hover {
+      color: #0f67b3;
+    }
+
+    .nav a.active {
+      color: #0f67b3;
+      border-bottom: 2px solid #0f67b3;
+      padding-bottom: 5px;
+    }
+
+    .header-btn {
+      background: #0f67b3;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .header-btn:hover {
+      background: #0a4d8a;
+    }
+
+    /* ========== ТРЕНЕРЫ ========== */
+    .coaches-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .section-badge {
+      display: inline-block;
+      background: rgba(15, 103, 179, 0.1);
+      color: #0f67b3;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    .section-title {
+      font-size: 42px;
+      color: #0a1a2f;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .section-title span {
+      color: #0f67b3;
+      position: relative;
+    }
+
+    .section-title span::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #0f67b3, #6ab0de);
+      border-radius: 3px;
+    }
+
+    .section-subtitle {
+      color: #5a6e7c;
+      font-size: 18px;
+      margin-bottom: 50px;
+      max-width: 700px;
+    }
+
+    /* Сетка тренеров */
+    .coaches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      margin-bottom: 80px;
+    }
+
+    /* Карточка тренера */
+    .coach-card {
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+      transition: all 0.3s;
+    }
+
+    .coach-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 45px rgba(0,0,0,0.15);
+    }
+
+    .coach-photo {
+      position: relative;
+      height: 320px;
+      overflow: hidden;
+    }
+
+    .coach-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .coach-card:hover .coach-photo img {
+      transform: scale(1.05);
+    }
+
+    .coach-social {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .coach-social a {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #0f67b3;
+      font-size: 18px;
+      transition: all 0.2s;
+    }
+
+    .coach-social a:hover {
+      background: #0f67b3;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .coach-info {
+      padding: 25px;
+    }
+
+    .coach-name {
+      font-size: 24px;
+      color: #0a1a2f;
+      margin-bottom: 5px;
+    }
+
+    .coach-title {
+      color: #0f67b3;
+      font-weight: 500;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .coach-desc {
+      color: #5a6e7c;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .coach-stats {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-badge {
+      background: #eef2ff;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #0f67b3;
+      font-weight: 500;
+    }
+
+    .coach-btn {
+      background: #0f67b3;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      width: 100%;
+    }
+
+    .coach-btn:hover {
+      background: #0a4d8a;
+      transform: scale(1.02);
+    }
+
+    /* ========== РАСПИСАНИЕ ТРЕНЕРОВ ========== */
+    .schedule-section {
+      padding: 80px 0;
+      background: #f8fafc;
+    }
+
+    .schedule-tabs {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .schedule-tab {
+      background: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .schedule-tab:hover {
+      background: #eef2ff;
+    }
+
+    .schedule-tab.active {
+      background: #0f67b3;
+      color: white;
+    }
+
+    .schedule-content {
+      display: none;
+    }
+
+    .schedule-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Таблица расписания */
+    .schedule-table {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    .schedule-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      border-bottom: 1px solid #eef2f6;
+    }
+
+    .schedule-row:last-child {
+      border-bottom: none;
+    }
+
+    .schedule-day {
+      background: #f8fafc;
+      padding: 18px 20px;
+      font-weight: 700;
+      color: #0a1a2f;
+      border-right: 1px solid #eef2f6;
+    }
+
+    .schedule-times {
+      padding: 18px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .time-slot {
+      background: #eef2ff;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      color: #0f67b3;
+      font-weight: 500;
+    }
+
+    .time-slot.full {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    /* Специальность тренера */
+    .coach-specialty {
+      display: inline-block;
+      background: #0f67b3;
+      color: white;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 15px;
+      margin-top: 8px;
+    }
+
+    /* ========== ПОДВАЛ ========== */
+    .footer {
+      background: #0a1a2f;
+      color: #cbd5e1;
+      padding: 60px 40px 30px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      margin-bottom: 40px;
+    }
+
+    .footer-logo h2 {
+      color: white;
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+
+    .footer-logo h2 span {
+      color: #3b82f6;
+    }
+
+    .footer-logo p {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 5px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col h4 {
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .footer-col h4::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 35px;
+      height: 2px;
+      background: #3b82f6;
+    }
+
+    .footer-col a {
+      font-size: 14px;
+      line-height: 2;
+      color: #cbd5e1;
+      text-decoration: none;
+      display: block;
+      transition: all 0.2s;
+    }
+
+    .footer-col a:hover {
+      color: #3b82f6;
+      transform: translateX(3px);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .ip-block {
+      background: rgba(59, 130, 246, 0.08);
+      border-left: 3px solid #3b82f6;
+      padding: 12px 16px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+
+    .ip-name {
+      color: white !important;
+      font-weight: 600;
+      font-size: 13px !important;
+    }
+
+    .vk-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #2787f5;
+      color: white !important;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.2s;
+      width: auto !important;
+      margin-top: 15px;
+    }
+
+    .vk-button:hover {
+      background: #1a6bc7;
+      transform: translateY(-2px);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1e2a3e;
+      padding-top: 25px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .footer-bottom a {
+      color: #94a3b8;
+      text-decoration: none;
+    }
+
+    .footer-bottom a:hover {
+      color: #3b82f6;
+    }
+
+    /* Модальное окно */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      max-width: 500px;
+      width: 90%;
+      border-radius: 28px;
+      padding: 30px;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-size: 28px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #94a3b8;
+    }
+
+    .modal-close:hover {
+      color: #0f67b3;
+    }
+
+    .modal h3 {
+      font-size: 28px;
+      color: #0a1a2f;
+      margin-bottom: 20px;
+    }
+
+    .modal-info {
+      margin-bottom: 15px;
+    }
+
+    .modal-info strong {
+      color: #0f67b3;
+      display: inline-block;
+      width: 100px;
+    }
+
+    /* Адаптив */
+    @media (max-width: 768px) {
+      .section-title { font-size: 32px; }
+      .coaches-grid { grid-template-columns: 1fr; }
+      .schedule-row { grid-template-columns: 1fr; }
+      .schedule-day { border-right: none; border-bottom: 1px solid #eef2f6; }
+      .footer { padding: 40px 20px 25px; }
+      .footer-grid { gap: 30px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .header-inner { flex-direction: column; }
+      .nav { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== ШАПКА ========== -->
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo">
+        <img src="images/logo.png" alt="Атлант">
+      </div>
+      <nav class="nav">
+        <a href="about.html">О школе</a>
+        
+        <a href="coaches.html">Тренеры</a>
+        <a href="Price.html">Услуги</a>
+        
+        <a href="programs-docs.html" class="active">Рабочая программа</a>
+        
+      </nav>
+      <a href="contacts.html" class="header-btn">Записаться</a>
+    </div>
+  </header>
+
+  <!-- ========== ТРЕНЕРЫ ========== -->
+  <section class="coaches-section">
+    <div class="container">
+      <div style="text-align: center;">
+        <span class="section-badge"> НАША КОМАНДА</span>
+        <h2 class="section-title">
+          Наши <span>тренеры</span>
+        </h2>
+        <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">
+          Профессионалы с опытом работы, которые помогут вам достичь поставленных целей
+        </p>
+      </div>
+
+      <div class="coaches-grid">
+        
+        <!-- Тренер 1: Адиль -->
+        <div class="coach-card">
+          <div class="coach-photo">
+            <img src="images/coach1.jpg" alt="Адиль">
+            <div class="coach-social">
+              <a href="#"></a>
+              <a href="#"></a>
+            </div>
+          </div>
+          <div class="coach-info">
+            <h3 class="coach-name">Адиль</h3>
+            <div class="coach-title">Старший тренер </div>
+            <p class="coach-desc">
+              Мастер спорта по плаванию. Специализируется на индивидуальных и сплит-тренировках. 
+              Помогает освоить плавание с нуля и улучшить технику.
+            </p>
+            <div class="coach-stats">
+              <span class="stat-badge"> 8 лет опыта</span>
+              <span class="stat-badge"> 50+ учеников</span>
+              <span class="stat-badge"> Индивидуальные</span>
+              <span class="stat-badge"> Групповые, ОФП</span>
+            </div>
+           
+          </div>
+        </div>
+
+        <!-- Тренер 2: Михаил -->
+        <div class="coach-card">
+          <div class="coach-photo">
+            <img src="images/coach2.jpg" alt="Михаил">
+            <div class="coach-social">
+              <a href="#"></a>
+              <a href="#"></a>
+            </div>
+          </div>
+          <div class="coach-info">
+            <h3 class="coach-name">Михаил</h3>
+            <div class="coach-title">Тренер по ОФП и плаванию </div>
+            <p class="coach-desc">
+              Проводит сплит-тренировки, ОФП и групповые занятия. 
+              Работает с детьми и взрослыми, развивает технику и выносливость.
+            </p>
+            <div class="coach-stats">
+              <span class="stat-badge"> 6 лет опыта</span>
+              <span class="stat-badge"> 40+ учеников</span>
+              <span class="stat-badge"> Групповые, ОФП</span>
+            </div>
+           
+          </div>
+        </div>
+
+        <!-- Тренер 3: Евгений -->
+        <div class="coach-card">
+          <div class="coach-photo">
+            <img src="images/coach3.jpg" alt="Евгений">
+            <div class="coach-social">
+              <a href="#"></a>
+              <a href="#"></a>
+            </div>
+          </div>
+          <div class="coach-info">
+            <h3 class="coach-name">Евгений</h3>
+            <div class="coach-title">Тренер по ОФП и плаванию </div>
+            <p class="coach-desc">
+              Специалист по обучению детей от 4 лет. Помогает преодолеть страх воды, 
+              развивает координацию и уверенность. Индивидуальный подход к каждому ребёнку.
+            </p>
+            <div class="coach-stats">
+              <span class="stat-badge"> 5 лет опыта</span>
+              <span class="stat-badge"> 40+ учеников</span>
+              <span class="stat-badge"> Групповые, ОФП</span>
+            </div>
+            
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== РАСПИСАНИЕ ТРЕНЕРОВ ========== -->
+  <section class="schedule-section">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <span class="section-badge"> ГРАФИК</span>
+        <h2 class="section-title">
+          Расписание <span>занятий</span>
+        </h2>
+        <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">
+          Выберите тренера и запишитесь на удобное время
+        </p>
+      </div>
+
+      <div class="schedule-tabs">
+        <button class="schedule-tab active" onclick="showTrainerSchedule('adil')">Групповые</button>
+        <button class="schedule-tab" onclick="showTrainerSchedule('mikhail')">ОФП</button>
+
+      </div>
+
+      <!-- Расписание Групповые -->
+      <div id="adil-schedule" class="schedule-content active">
+        <div class="schedule-table">
+          <div class="schedule-row"><div class="schedule-day">Понедельник </div><div class="schedule-times"><span class="time-slot">Выходной</span></div></div>
+          <div class="schedule-row"><div class="schedule-day">Вторник</div><div class="schedule-times"><span class="time-slot">8:00</span><span class="time-slot">10:00</span><span class="time-slot">14:00</span></div></div>
+          <div class="schedule-row"><div class="schedule-day">Среда</div><div class="schedule-times"><span class="time-slot">14:00</span><span class="time-slot">16:30</div></div>
+          <div class="schedule-row"><div class="schedule-day">Четверг</div><div class="schedule-times"><span class="time-slot">8:00</span><span class="time-slot">10:00</span><span class="time-slot">14:00</span></div></div>
+          <div class="schedule-row"><div class="schedule-day">Пятница</div><div class="schedule-times"><span class="time-slot">14:00</span><span class="time-slot">16:30</div></div>
+          <div class="schedule-row"><div class="schedule-day">Суббота</div><div class="schedule-times"><span class="time-slot">11:00</span></div></div>
+          <div class="schedule-row"><div class="schedule-day">Воскресенье</div><div class="schedule-times"><span class="time-slot">10:00</span></div></div>
+        </div>
+      </div>
+
+      <!-- Расписание ОФП -->
+      <div id="mikhail-schedule" class="schedule-content">
+        <div class="schedule-table">
+         <div class="schedule-row"><div class="schedule-day">Среда</div><div class="schedule-times"><span class="time-slot">15:15</span></div></div>
+         <div class="schedule-row"><div class="schedule-day">Воскресенье</div><div class="schedule-times"><span class="time-slot">15:15</span></div></div>
+        </div>
+      </div>
+
+      <!-- Расписание Анны -->
+      <div id="anna-schedule" class="schedule-content">
+        <div class="schedule-table">
+          <div class="schedule-row"><div class="schedule-day">Понедельник</div><div class="schedule-times"><span class="time-slot">16:00</span><span class="time-slot">17:00</span><span class="time-slot">18:00</span></div></div>
+          <div class="schedule-row"><div class="schedule-day">Вторник</div><div class="schedule-times"><span class="time-slot">16:00</span><span class="time-slot">17:00</span><span class="time-slot">18:00</span></div></div>
+          <div class="schedule-row"><div class="schedule-day">Среда</div><div class="schedule-times"><span class="time-slot">15:00</span><span class="time-slot">16:00</span><span class="time-slot">17:00</span></div></div>
+          <div class="schedule-row"><div class="schedule-day">Четверг</div><div class="schedule-times"><span class="time-slot full">занято</span></div></div>
+          <div class="schedule-row"><div class="schedule-day">Пятница</div><div class="schedule-times"><span class="time-slot">15:00</span><span class="time-slot">16:00</span><span class="time-slot">17:00</span></div></div>
+          <div class="schedule-row"><div class="schedule-day">Суббота</div><div class="schedule-times"><span class="time-slot">10:00</span><span class="time-slot">11:00</span></div></div>
+          <div class="schedule-row"><div class="schedule-day">Воскресенье</div><div class="schedule-times"><span class="time-slot">10:00</span><span class="time-slot">11:00</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ПОДВАЛ ========== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-logo">
+        <h2>Атлант <span>| Школа плавания</span></h2>
+        <p>обучение плаванию для всех возрастов</p>
+      </div>
+
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>О школе</h4>
+          <a href="about.html">О школе</a>
+          <a href="programs.html">Направления</a>
+          <a href="coaches.html">Тренеры</a>
+          <a href="prices.html">Услуги</a>
+          <a href="schedule.html">Расписание</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <div class="contact-item"><span></span><span>+7 965 975-23-57</span></div>
+          <div class="contact-item"><span></span><span>atlantswim55@rambler.ru</span></div>
+          <div class="ip-block">
+            <p class="ip-name">ИП Тезекбаев Адильхан Маратович</p>
+            <p>ИНН: 550624287102</p>
+            <p>ОГРНИП: 322554300060051</p>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Документы</h4>
+          <a href="programs-docs.html">📄 Рабочая программа</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Обратная связь</h4>
+          <a href="contacts.html">Обратная связь</a>
+          <a href="contacts.html">Запись на пробное занятие</a>
+          <a href="https://vk.com/club215933352" target="_blank" class="vk-button"> ВКонтакте</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2024 Атлант - школа плавания. Все права защищены.</div>
+        <div><a href="#">Политика конфиденциальности</a> | <a href="#">Договор оферты</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Модальное окно -->
+  <div id="scheduleModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <h3 id="modalName">Расписание</h3>
+      <div id="modalInfo"></div>
+      <a href="contacts.html" class="coach-btn" style="margin-top: 20px;">Записаться</a>
+    </div>
+  </div>
+
+  <script>
+    // Переключение расписания
+    function showTrainerSchedule(trainer) {
+      // Скрыть все
+      document.getElementById('adil-schedule').classList.remove('active');
+      document.getElementById('mikhail-schedule').classList.remove('active');
+      document.getElementById('anna-schedule').classList.remove('active');
+      
+      // Показать выбранное
+      document.getElementById(`${trainer}-schedule`).classList.add('active');
+      
+      // Обновить активную кнопку
+      const tabs = document.querySelectorAll('.schedule-tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    // Открытие модалки
+    function openSchedule(name, times, specialty, address) {
+      const modal = document.getElementById('scheduleModal');
+      const modalName = document.getElementById('modalName');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalName.textContent = name;
+      modalInfo.innerHTML = `
+        <div class="modal-info"><strong> Расписание:</strong><br>${times}</div>
+        <div class="modal-info"><strong> Специализация:</strong> ${specialty}</div>
+        <div class="modal-info"><strong> Адрес:</strong> ${address}</div>
+      `;
+      
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('scheduleModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('scheduleModal');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

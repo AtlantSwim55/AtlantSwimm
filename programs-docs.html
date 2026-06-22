@@ -1,0 +1,897 @@
+я<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Атлант — Рабочая программа</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f4f8;
+      color: #1e2a3e;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ========== ШАПКА ========== */
+    .header {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #1e2a3e;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav a:hover {
+      color: #0f67b3;
+    }
+
+    .nav a.active {
+      color: #0f67b3;
+      border-bottom: 2px solid #0f67b3;
+      padding-bottom: 5px;
+    }
+
+    .header-btn {
+      background: #0f67b3;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .header-btn:hover {
+      background: #0a4d8a;
+    }
+
+    /* ========== РАБОЧАЯ ПРОГРАММА ========== */
+    .docs-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      flex: 1;
+    }
+
+    .section-badge {
+      display: inline-block;
+      background: rgba(15, 103, 179, 0.1);
+      color: #0f67b3;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    .section-title {
+      font-size: 42px;
+      color: #0a1a2f;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .section-title span {
+      color: #0f67b3;
+      position: relative;
+    }
+
+    .section-title span::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #0f67b3, #6ab0de);
+      border-radius: 3px;
+    }
+
+    .section-subtitle {
+      color: #5a6e7c;
+      font-size: 18px;
+      margin-bottom: 50px;
+      max-width: 700px;
+    }
+
+    /* Документы сетка */
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+
+    /* Карточка документа */
+    .doc-card {
+      background: white;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .doc-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 35px rgba(0,0,0,0.1);
+    }
+
+    .doc-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #0f67b3, #6ab0de);
+    }
+
+    .doc-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .doc-card h3 {
+      font-size: 22px;
+      color: #0a1a2f;
+      margin-bottom: 12px;
+    }
+
+    .doc-card p {
+      color: #5a6e7c;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .doc-meta {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .doc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #0f67b3;
+      color: white;
+      padding: 10px 24px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .doc-btn:hover {
+      background: #0a4d8a;
+      transform: scale(1.02);
+    }
+
+    .doc-btn.secondary {
+      background: transparent;
+      border: 2px solid #0f67b3;
+      color: #0f67b3;
+    }
+
+    .doc-btn.secondary:hover {
+      background: #0f67b3;
+      color: white;
+    }
+
+    /* Разделитель */
+    .docs-divider {
+      text-align: center;
+      margin: 50px 0 40px;
+      position: relative;
+    }
+
+    .docs-divider span {
+      background: linear-gradient(135deg, #ffffff, #f8fafc);
+      padding: 0 30px;
+      font-size: 18px;
+      color: #0f67b3;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+
+    .docs-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #0f67b3, #6ab0de, #0f67b3, transparent);
+      transform: translateY(-50%);
+    }
+
+    /* Содержание программы */
+    .program-content {
+      background: white;
+      border-radius: 28px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      margin-bottom: 40px;
+    }
+
+    .program-content h3 {
+      font-size: 24px;
+      color: #0a1a2f;
+      margin-bottom: 20px;
+    }
+
+    .program-list {
+      list-style: none;
+    }
+
+    .program-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid #eef2f6;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .program-list li:last-child {
+      border-bottom: none;
+    }
+
+    .program-list li::before {
+      content: "📄";
+      color: #0f67b3;
+    }
+
+    .program-list a {
+      text-decoration: none;
+      color: #1e2a3e;
+      flex: 1;
+      transition: color 0.2s;
+    }
+
+    .program-list a:hover {
+      color: #0f67b3;
+    }
+
+    .file-size {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* Аккордеон (раскрывающиеся блоки) */
+    .accordion-item {
+      border-bottom: 1px solid #eef2f6;
+    }
+
+    .accordion-header {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 20px 0;
+      text-align: left;
+      font-size: 18px;
+      font-weight: 600;
+      color: #0a1a2f;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color 0.2s;
+    }
+
+    .accordion-header:hover {
+      color: #0f67b3;
+    }
+
+    .accordion-arrow {
+      width: 12px;
+      height: 12px;
+      border-right: 2px solid #0f67b3;
+      border-bottom: 2px solid #0f67b3;
+      transform: rotate(45deg);
+      transition: transform 0.3s;
+    }
+
+    .accordion-header.active .accordion-arrow {
+      transform: rotate(225deg);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding-left: 20px;
+    }
+
+    .accordion-content.active {
+      max-height: 500px;
+      padding-bottom: 20px;
+    }
+
+    .accordion-content p {
+      color: #5a6e7c;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #0f67b3;
+      text-decoration: none;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
+    /* Модальное окно PDF */
+    .pdf-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .pdf-modal-content {
+      background: white;
+      width: 90%;
+      max-width: 1000px;
+      height: 85%;
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .pdf-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: #0a1a2f;
+      color: white;
+    }
+
+    .pdf-modal-header span {
+      font-weight: 600;
+    }
+
+    .pdf-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: white;
+      transition: 0.2s;
+    }
+
+    .pdf-close:hover {
+      color: #0f67b3;
+      transform: rotate(90deg);
+    }
+
+    .pdf-iframe {
+      width: 100%;
+      flex: 1;
+      border: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* ========== ПОДВАЛ ========== */
+    .footer {
+      background: #0a1a2f;
+      color: #cbd5e1;
+      padding: 60px 40px 30px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      margin-bottom: 40px;
+    }
+
+    .footer-logo h2 {
+      color: white;
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+
+    .footer-logo h2 span {
+      color: #3b82f6;
+    }
+
+    .footer-logo p {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 5px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col h4 {
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .footer-col h4::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 35px;
+      height: 2px;
+      background: #3b82f6;
+    }
+
+    .footer-col a {
+      font-size: 14px;
+      line-height: 2;
+      color: #cbd5e1;
+      text-decoration: none;
+      display: block;
+      transition: all 0.2s;
+    }
+
+    .footer-col a:hover {
+      color: #3b82f6;
+      transform: translateX(3px);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .ip-block {
+      background: rgba(59, 130, 246, 0.08);
+      border-left: 3px solid #3b82f6;
+      padding: 12px 16px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+
+    .ip-name {
+      color: white !important;
+      font-weight: 600;
+      font-size: 13px !important;
+    }
+
+    .vk-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #2787f5;
+      color: white !important;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.2s;
+      width: auto !important;
+      margin-top: 15px;
+    }
+
+    .vk-button:hover {
+      background: #1a6bc7;
+      transform: translateY(-2px);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1e2a3e;
+      padding-top: 25px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .footer-bottom a {
+      color: #94a3b8;
+      text-decoration: none;
+    }
+
+    .footer-bottom a:hover {
+      color: #3b82f6;
+    }
+
+    /* Адаптив */
+    @media (max-width: 768px) {
+      .section-title { font-size: 32px; }
+      .docs-grid { grid-template-columns: 1fr; }
+      .program-content { padding: 25px; }
+      .footer { padding: 40px 20px 25px; }
+      .footer-grid { gap: 30px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .header-inner { flex-direction: column; }
+      .nav { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== ШАПКА ========== -->
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo">
+        <img src="images/logo.png" alt="Атлант">
+      </div>
+      <nav class="nav">
+        <a href="about.html">О школе</a>
+        
+        <a href="coaches.html">Тренеры</a>
+        <a href="Price.html">Услуги</a>
+        
+        <a href="programs-docs.html" class="active">Рабочая программа</a>
+        
+      </nav>
+      <a href="contacts.html" class="header-btn">Записаться</a>
+    </div>
+  </header>
+
+  <!-- ========== РАБОЧАЯ ПРОГРАММА ========== -->
+  <main class="docs-section">
+    <div class="container">
+      
+      <div style="text-align: center;">
+        <span class="section-badge">📚 ДОКУМЕНТЫ</span>
+        <h2 class="section-title">
+          Рабочая <span>программа</span>
+        </h2>
+        <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">
+          Официальные документы, нормативы и стандарты спортивной подготовки по плаванию
+        </p>
+      </div>
+
+      <!-- Карточки документов -->
+      <div class="docs-grid">
+        
+        <div class="doc-card">
+          <div class="doc-icon">📘</div>
+          <h3>Стандарт спортивной подготовки</h3>
+          <p>Полная версия стандарта спортивной подготовки по плаванию. Регламентирует цели, этапы обучения и требования к результатам.</p>
+          <div class="doc-meta">
+            <span>📄 PDF, 2.5 МБ</span>
+            <span>📅 2024 г.</span>
+          </div>
+          <button class="doc-btn" onclick="openPdf('standard')">📖 Открыть PDF</button>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-icon">📊</div>
+          <h3>Учебный план</h3>
+          <p>Годовой учебный план тренировок по этапам подготовки: объёмы нагрузки, распределение часов и нормативы.</p>
+          <div class="doc-meta">
+            <span>📄 PDF, 1.8 МБ</span>
+            <span>📅 2024 г.</span>
+          </div>
+          <button class="doc-btn" onclick="openPdf('plan')">📖 Открыть PDF</button>
+        </div>
+
+        <div class="doc-card">
+          <div class="doc-icon">🏊</div>
+          <h3>Оборудование и спортивнй инвентарь</h3>
+          <p>Методические рекомендации по использованию оборудования и спортивного инвентаря.</p>
+          <div class="doc-meta">
+            <span>📄 PDF, 3.2 МБ</span>
+            <span>📅 2024 г.</span>
+          </div>
+          <button class="doc-btn" onclick="openPdf('equipment')">📖 Открыть PDF</button>
+        </div>
+
+      </div>
+
+      <!-- Разделитель -->
+      <div class="docs-divider">
+        <span>📋 СОДЕРЖАНИЕ ПРОГРАММЫ</span>
+      </div>
+
+      <!-- Список документов -->
+      <div class="program-content">
+        <h3>Документы рабочей программы</h3>
+        <ul class="program-list">
+          <li><a href="#" onclick="openPdf('standard')">Стандарт спортивной подготовки по плаванию</a><span class="file-size">(2.5 МБ)</span></li>
+          <li><a href="#" onclick="openPdf('plan')">Годовой план тренировок</a><span class="file-size">(1.8 МБ)</span></li>
+          <li><a href="#" onclick="openPdf('equipment')">Оборудование и спортивный инвентарь</a><span class="file-size">(3.2 МБ)</span></li>
+          <li><a href="#" onclick="openPdf('ofp')">Нормативы ОФП и СФП</a><span class="file-size">(1.5 МБ)</span></li>
+          
+      </div>
+
+      <!-- Разделитель -->
+      <div class="docs-divider">
+        <span>❓ ЧАСТЫЕ ВОПРОСЫ</span>
+      </div>
+
+      <!-- Аккордеон (раскрывающиеся блоки) -->
+      <div class="program-content">
+        
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            Какие этапы подготовки существуют?
+            <span class="accordion-arrow"></span>
+          </button>
+          <div class="accordion-content">
+            <p>В стандарте спортивной подготовки выделяют 4 этапа:</p>
+            <p>• <strong>Начальная подготовка</strong> (1–2 года) — освоение базовых навыков</p>
+            <p>• <strong>Учебно-тренировочный этап</strong> (3–5 лет) — развитие техники и выносливости</p>
+            <p>• <strong>Спортивное совершенствование</strong> (5–8 лет) — подготовка к соревнованиям</p>
+            <p>• <strong>Высшее спортивное мастерство</strong> (от 8 лет) — профессиональный спорт</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            Какие нормативы нужно сдавать?
+            <span class="accordion-arrow"></span>
+          </button>
+          <div class="accordion-content">
+            <p>Ученики сдают нормативы:</p>
+            <p>• Плавание на дистанциях 50, 100, 200, 400 метров</p>
+            <p>• Техника всех стилей плавания</p>
+            <p>• ОФП: отжимания, подтягивания, планка, гибкость</p>
+            <p>• Старты и повороты с тумбочки</p>
+            <p><a href="#" class="download-link" onclick="openPdf('ofp')">📥 Скачать полный список нормативов →</a></p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            Как оценивается прогресс ученика?
+            <span class="accordion-arrow"></span>
+          </button>
+          <div class="accordion-content">
+            <p>Прогресс оценивается по нескольким параметрам:</p>
+            <p>• Ежемесячный контроль времени на дистанциях</p>
+            <p>• Видеоанализ техники плавания</p>
+            <p>• Тесты ОФП и СФП каждый квартал</p>
+            <p>• Участие в соревнованиях и выполнение разрядов</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            Как получить разряд по плаванию?
+            <span class="accordion-arrow"></span>
+          </button>
+          <div class="accordion-content">
+            <p>Для получения разряда необходимо:</p>
+            <p>• Регулярно посещать тренировки (от 3 раз в неделю)</p>
+            <p>• Выполнить норматив на официальных соревнованиях</p>
+            <p>• Иметь допуск врача и страховку</p>
+            <p>• Тренер подаёт заявку в спортивную федерацию</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ========== ПОДВАЛ ========== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-logo">
+        <h2>Атлант <span>| Школа плавания</span></h2>
+        <p>обучение плаванию для всех возрастов</p>
+      </div>
+
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>О школе</h4>
+          <a href="about.html">О школе</a>
+          <a href="programs.html">Направления</a>
+          <a href="coaches.html">Тренеры</a>
+          <a href="prices.html">Услуги</a>
+          <a href="schedule.html">Расписание</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <div class="contact-item"><span>📞</span><span>+7 965 975-23-57</span></div>
+          <div class="contact-item"><span>✉️</span><span>atlantswim55@rambler.ru</span></div>
+          <div class="ip-block">
+            <p class="ip-name">ИП Тезекбаев Адильхан Маратович</p>
+            <p>ИНН: 550624287102</p>
+            <p>ОГРНИП: 322554300060051</p>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Документы</h4>
+          <a href="programs-docs.html">📄 Рабочая программа</a>
+          <div class="bank-details" style="margin-top: 15px; font-size: 11px; color: #94a3b8;">
+            <p>Расчетный счет: 000000000</p>
+            <p>БИК: 00000</p>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Обратная связь</h4>
+          <a href="contacts.html">Обратная связь</a>
+          <a href="contacts.html">Запись на пробное занятие</a>
+          <a href="https://vk.com/club215933352" target="_blank" class="vk-button">📱 ВКонтакте</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2024 Атлант - школа плавания. Все права защищены.</div>
+        <div><a href="#">Политика конфиденциальности</a> | <a href="#">Договор оферты</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Модальное окно PDF -->
+  <div id="pdfModal" class="pdf-modal">
+    <div class="pdf-modal-content">
+      <div class="pdf-modal-header">
+        <span>📄 Рабочая программа — Атлант школа плавания</span>
+        <button class="pdf-close" onclick="closePdfModal()">×</button>
+      </div>
+      <iframe id="pdfViewer" class="pdf-iframe" src=""></iframe>
+    </div>
+  </div>
+
+  <script>
+    // Открытие PDF в модальном окне
+    function openPdf(docType) {
+      let pdfUrl = '';
+      
+      switch(docType) {
+        case 'standard':
+          pdfUrl = '/pdf/standart_plavanie.pdf';
+          break;
+        case 'plan':
+          pdfUrl = '/pdf/educational_plan.pdf';
+          break;
+        case 'technique':
+          pdfUrl = '/pdf/technique_swimming.pdf';
+          break;
+        case 'all':
+          pdfUrl = '/pdf/all_docs.zip';
+          window.open(pdfUrl, '_blank');
+          return;
+        default:
+          pdfUrl = '/pdf/standart_plavanie.pdf';
+      }
+      
+      const modal = document.getElementById('pdfModal');
+      const iframe = document.getElementById('pdfViewer');
+      
+      iframe.src = pdfUrl;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePdfModal() {
+      const modal = document.getElementById('pdfModal');
+      const iframe = document.getElementById('pdfViewer');
+      modal.style.display = 'none';
+      iframe.src = '';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Аккордеон
+    function toggleAccordion(btn) {
+      btn.classList.toggle('active');
+      const content = btn.nextElementSibling;
+      content.classList.toggle('active');
+    }
+
+    // Закрытие по клику на фон
+    window.onclick = function(event) {
+      const modal = document.getElementById('pdfModal');
+      if (event.target === modal) {
+        closePdfModal();
+      }
+    }
+
+    // Закрытие по ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closePdfModal();
+      }
+    });
+  </script>
+  <script>
+  function openPdf(type) {
+    let file = "";
+
+    if (type === "standard") {
+      file = "docs/standard.pdf";
+    } else if (type === "plan") {
+      file = "docs/plan.pdf";
+    } else if (type === "technique") {
+      file = "docs/technique.pdf";
+    } else if (type === "ofp") {
+      file = "docs/ofp.pdf";
+      } else if (type === "equipment") {
+      file = "docs/equipment.pdf";
+    
+    } else if (type === "all") {
+      file = "docs/all.zip";
+    }
+
+    if (file) {
+      window.open(file, "_blank");
+    } else {
+      alert("Файл не найден");
+    }
+  }
+</script>
+</body>
+</html>

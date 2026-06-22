@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Атлант — Школа плавания</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f4f8;
+      color: #1e2a3e;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ========== БЛОК 1: HEADER ========== */
+    .header {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #1e2a3e;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav a:hover {
+      color: #0f67b3;
+    }
+
+    .header-btn {
+      background: #0f67b3;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .header-btn:hover {
+      background: #0a4d8a;
+    }
+
+    /* ========== БЛОК 2: HERO ========== */
+    .hero {
+      position: relative;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.55);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 800px;
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 64px;
+      letter-spacing: 4px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 24px;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+
+    .description {
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      background: #0f67b3;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 50px;
+      transition: background 0.2s;
+    }
+
+    .hero-btn:hover {
+      background: #0a4d8a;
+    }
+
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+
+    .feature {
+      text-align: center;
+    }
+
+    .feature img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+
+    /* ========== БЛОК 3: ABOUT (УЛУЧШЕННЫЙ) ========== */
+    .about-section {
+      padding: 100px 0;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(15,103,179,0.03) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .about-section::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(15,103,179,0.04) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .about-container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-badge {
+      display: inline-block;
+      background: rgba(15, 103, 179, 0.1);
+      color: #0f67b3;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    .about-title {
+      font-size: 42px;
+      color: #0a1a2f;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .about-title span {
+      color: #0f67b3;
+      position: relative;
+    }
+
+    .about-title span::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #0f67b3, #6ab0de);
+      border-radius: 3px;
+    }
+
+    .about-subtitle {
+      color: #5a6e7c;
+      font-size: 18px;
+      margin-bottom: 50px;
+      max-width: 600px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: #2c4b5e;
+      line-height: 1.7;
+      margin-bottom: 25px;
+      font-size: 16px;
+    }
+
+    .about-text p:first-child {
+      font-size: 18px;
+      font-weight: 500;
+      color: #0a1a2f;
+    }
+
+    .about-quote {
+      background: linear-gradient(135deg, #eef2ff, #e6f0fa);
+      padding: 25px 30px;
+      border-radius: 20px;
+      margin: 30px 0;
+      border-left: 4px solid #0f67b3;
+    }
+
+    .about-quote p {
+      margin-bottom: 0;
+      font-style: italic;
+      color: #1a4868;
+    }
+
+    .about-quote-author {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #0f67b3;
+      font-weight: 600;
+    }
+
+    .about-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #0f67b3;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 15px;
+      transition: all 0.3s;
+    }
+
+    .about-btn:hover {
+      background: #0a4d8a;
+      transform: translateX(5px);
+    }
+
+    .about-features {
+      background: white;
+      border-radius: 30px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 0;
+      border-bottom: 1px solid #eef2f6;
+      transition: transform 0.2s;
+    }
+
+    .feature-item:hover {
+      transform: translateX(8px);
+    }
+
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+      background: #eef2ff;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .feature-text h4 {
+      font-size: 18px;
+      color: #0a1a2f;
+      margin-bottom: 5px;
+    }
+
+    .feature-text p {
+      font-size: 14px;
+      color: #6b7a8a;
+    }
+
+    .about-stats {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      margin-top: 60px;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      flex: 1;
+      background: white;
+      padding: 30px 20px;
+      border-radius: 24px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+      transition: all 0.3s;
+    }
+
+    .stat-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+    }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: 800;
+      color: #0f67b3;
+      display: block;
+    }
+
+    .stat-label {
+      color: #5a6e7c;
+      font-size: 14px;
+    }
+
+    /* ========== БЛОК 4: WHY WE ========== */
+    .why-section {
+      padding: 80px 0;
+      background: #f8fafc;
+    }
+
+    .why-title {
+      margin-bottom: 50px;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .why-card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .why-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 35px rgba(0,0,0,0.1);
+    }
+
+    .why-icon {
+      margin-bottom: 20px;
+    }
+
+    .why-icon svg {
+      width: 55px;
+      height: 55px;
+      stroke: #0f67b3;
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .why-card h3 {
+      margin-bottom: 15px;
+      font-size: 22px;
+      color: #0f2b3d;
+    }
+
+    .why-card p {
+      color: #4a627a;
+      line-height: 1.5;
+    }
+
+    /* ========== АДАПТИВ ========== */
+    @media (max-width: 900px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .about-title {
+        font-size: 32px;
+      }
+      .about-stats {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 42px; }
+      .subtitle { font-size: 18px; }
+      .section-title { font-size: 28px; }
+      .nav { gap: 15px; }
+      .header-inner { flex-direction: column; }
+      .features { gap: 25px; }
+      .about-section {
+        padding: 60px 0;
+      }
+      .about-features {
+        padding: 25px;
+      }
+      .feature-item {
+        padding: 12px 0;
+      }
+      .feature-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 32px; }
+      .hero-btn { padding: 10px 20px; font-size: 14px; }
+      .feature img { width: 45px; }
+    }
+
+    /* ========== ПОДВАЛ (FOOTER) ========== */
+.footer {
+  background: #0a1a2f;           /* Темно-синий фон */
+  color: #cbd5e1;                /* Светло-серый цвет текста */
+  padding: 60px 40px 30px;       /* Внутренние отступы: верх-60, бока-40, низ-30 */
+}
+
+.footer-container {
+  max-width: 1200px;             /* Максимальная ширина контента */
+  margin: 0 auto;                /* Центрирование по горизонтали */
+}
+
+/* Логотип в подвале */
+.footer-logo {
+  margin-bottom: 40px;           /* Отступ снизу */
+}
+
+.footer-logo h2 {
+  color: white;                  /* Белый цвет заголовка */
+  font-size: 28px;
+  letter-spacing: 1px;           /* Межбуквенный интервал */
+}
+
+.footer-logo h2 span {
+  color: #3b82f6;                /* Голубой цвет для "| Школа плавания" */
+}
+
+.footer-logo p {
+  font-size: 13px;
+  color: #94a3b8;                /* Серый цвет для описания */
+  margin-top: 5px;
+}
+
+/* Сетка подвала (4 колонки) */
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;                     /* Расстояние между колонками */
+  margin-bottom: 50px;           /* Отступ снизу перед нижней линией */
+}
+
+/* Заголовки колонок */
+.footer-col h4 {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  position: relative;            /* Для псевдоэлемента с линией */
+  display: inline-block;         /* Чтобы линия была под ширину текста */
+}
+
+/* Декоративная линия под заголовком */
+.footer-col h4::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;                  /* Отступ линии от текста */
+  left: 0;
+  width: 35px;                   /* Ширина линии */
+  height: 2px;                   /* Толщина линии */
+  background: #3b82f6;           /* Голубой цвет */
+}
+
+/* Ссылки в колонках */
+.footer-col a {
+  font-size: 14px;
+  line-height: 2;                /* Межстрочный интервал */
+  color: #cbd5e1;
+  text-decoration: none;
+  display: block;                /* Каждая ссылка с новой строки */
+  transition: all 0.2s;          /* Плавный переход при наведении */
+}
+
+/* Эффект при наведении на ссылку */
+.footer-col a:hover {
+  color: #3b82f6;                /* Становится голубой */
+  transform: translateX(3px);    /* Сдвиг вправо */
+}
+
+/* Контактный элемент (телефон, email) */
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;                     /* Расстояние между иконкой и текстом */
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+/* Блок с ИП */
+.ip-block {
+  background: rgba(59, 130, 246, 0.08);  /* Полупрозрачный голубой фон */
+  border-left: 3px solid #3b82f6;        /* Голубая полоска слева */
+  padding: 12px 16px;
+  margin-top: 20px;
+  border-radius: 8px;                    /* Скругление углов */
+}
+
+/* Имя ИП */
+.ip-name {
+  color: white !important;
+  font-weight: 600;
+  font-size: 13px !important;
+}
+
+/* Кнопка ВКонтакте */
+.vk-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #2787f5;           /* Синий цвет ВК */
+  color: white !important;
+  padding: 10px 20px;
+  border-radius: 40px;            /* Сильно скруглённые углы */
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s;
+  width: auto !important;
+  margin-top: 15px;
+}
+
+/* Эффект при наведении на кнопку ВК */
+.vk-button:hover {
+  background: #1a6bc7;            /* Темнее при наведении */
+  transform: translateY(-2px);    /* Лёгкий подъём */
+}
+
+/* Нижняя линия с копирайтом */
+.footer-bottom {
+  border-top: 1px solid #1e2a3e;  /* Тонкая линия сверху */
+  padding-top: 25px;
+  display: flex;
+  justify-content: space-between;  /* Контент по краям */
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* Ссылки в нижней линии */
+.footer-bottom a {
+  color: #94a3b8;
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  color: #3b82f6;
+}
+
+/* ========== АДАПТИВ ДЛЯ ПОДВАЛА ========== */
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 20px 25px;     /* Меньше отступы на телефонах */
+  }
+  .footer-grid {
+    gap: 30px;                   /* Меньше расстояние между колонками */
+  }
+  .footer-bottom {
+    flex-direction: column;      /* Колонкой вместо строки */
+    text-align: center;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- ============================================ -->
+  <!-- БЛОК 1: ШАПКА (HEADER) -->
+  <!-- ============================================ -->
+ <header class="header">
+    <div class="container header-inner">
+      <div class="logo">
+        <img src="images/logo.png" alt="Атлант">
+      </div>
+      <nav class="nav">
+        <a href="about.html">О школе</a>
+        
+        <a href="coaches.html">Тренеры</a>
+        <a href="Price.html">Услуги</a>
+        
+        <a href="programs-docs.html" class="active">Рабочая программа</a>
+        
+      </nav>
+      <a href="contacts.html" class="header-btn">Записаться</a>
+    </div>
+  </header>
+
+  <!-- ============================================ -->
+  <!-- БЛОК 2: ГЛАВНЫЙ ЭКРАН (HERO) -->
+  <!-- ============================================ -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="images/pool.jpg" alt="Школа плавания Атлант">
+      <div class="overlay"></div>
+    </div>
+    <div class="hero-content">
+      <h1>АТЛАНТ</h1>
+      <p class="subtitle">ШКОЛА ПЛАВАНИЯ</p>
+      <p class="description">
+        Обучаем детей и взрослых плавать уверенно, безопасно и с удовольствием
+      </p>
+      <a href="#contacts" class="hero-btn">Записаться на пробное занятие</a>
+      <div class="features">
+        <div class="feature">
+          <img src="images/icon-approach.png" alt="Индивидуальный подход">
+          <p>Индивидуальный<br>подход</p>
+        </div>
+        <div class="feature">
+          <img src="images/icon-coach.png" alt="Опытные тренеры">
+          <p>Опытные тренеры</p>
+        </div>
+        <div class="feature">
+          <img src="images/icon-safe.png" alt="Безопасное обучение">
+          <p>Безопасное<br>обучение</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- БЛОК 3: О ШКОЛЕ (ABOUT) — УЛУЧШЕННАЯ ВЕРСИЯ -->
+  <!-- ============================================ -->
+  <section id="about" class="about-section">
+    <div class="container about-container">
+      
+      <div style="text-align: center;">
+        
+        <h2 class="about-title">
+          Школа плавания <span>«Атлант»</span>
+        </h2>
+        <p class="about-subtitle">
+          Пространство, где мечты о воде становятся реальностью
+        </p>
+      </div>
+
+      <div class="about-grid">
+        
+        <div class="about-text">
+          <p>
+             <strong>«Атлант»</strong> — это больше чем школа плавания. Это место, где каждый ученик чувствует поддержку, уверенность и видит свой прогресс с первых занятий.
+          </p>
+          <p>
+            Мы обучаем детей от 4 лет и взрослых любого уровня подготовки. Наша методика построена на постепенном погружении, индивидуальном подходе и полной безопасности.
+          </p>
+          
+          <div class="about-quote">
+            <p>"Плавание — это не просто спорт. Это уверенность в себе, здоровье и радость движения. Мы помогаем полюбить воду с первого занятия."</p>
+            <div class="about-quote-author">— Основатель школы «Атлант»</div>
+          </div>
+          
+          <p>
+            Для нас важно, чтобы занятия были не только эффективными, но и комфортными. Мы создаём атмосферу, в которой ученик получает поддержку и вдохновение.
+          </p>
+          
+          <a href="#contacts" class="about-btn">
+            Присоединиться → 
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="about-features">
+          <div class="feature-item">
+            <div class="feature-icon"></div>
+            <div class="feature-text">
+              <h4>Индивидуальный подход</h4>
+              <p>Программа под ваш уровень, возраст и цели</p>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon"></div>
+            <div class="feature-text">
+              <h4>Безопасное обучение</h4>
+              <p>Постепенное погружение без стресса</p>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon"></div>
+            <div class="feature-text">
+              <h4>Опытные тренеры</h4>
+              <p>Профессионалы с любовью к своему делу</p>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon"></div>
+            <div class="feature-text">
+              <h4>Комфортная атмосфера</h4>
+              <p>Тёплый приём и поддержка на каждом этапе</p>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon"></div>
+            <div class="feature-text">
+              <h4>Видимый результат</h4>
+              <p>Прогресс уже после 3-4 занятий</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- БЛОК 4: ПОЧЕМУ МЫ (WHY WE) -->
+  <!-- ============================================ -->
+  <section class="why-section">
+    <div class="container">
+      <h2 class="section-title why-title">Почему мы</h2>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 13c0-4.2 3-7 7-7 1.7 0 3.2.4 4.5 1.3" />
+              <path d="M4 17c2.2-1.5 5-2.3 8-2.3s5.8.8 8 2.3" />
+              <path d="M15.5 8.5l1.6 1.6 3.4-3.6" />
+            </svg>
+          </div>
+          <h3>Оценка уровня</h3>
+          <p>Подбираем программу обучения под уровень подготовки ученика</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 13c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4z" />
+              <path d="M5 19c1.6-2.4 4-3.6 7-3.6s5.4 1.2 7 3.6" />
+            </svg>
+          </div>
+          <h3>Индивидуальный подход</h3>
+          <p>Учитываем возраст, цели и уверенность в воде</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 4l7 3.5v4.8c0 3.7-2.5 6.9-7 7.7-4.5-.8-7-4-7-7.7V7.5L12 4z" />
+              <path d="M9.3 12.2l1.8 1.8 3.6-3.8" />
+            </svg>
+          </div>
+          <h3>Опытные тренеры</h3>
+          <p>Профессионалы, умеющие работать с детьми и взрослыми</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3l7 3v5c0 5-2.8 8.5-7 10-4.2-1.5-7-5-7-10V6l7-3z" />
+              <path d="M9 12l2 2 4-4" />
+            </svg>
+          </div>
+          <h3>Безопасное обучение</h3>
+          <p>Постепенное обучение без стресса и перегрузок</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="4" y="5" width="16" height="15" rx="2" />
+              <path d="M8 3v4M16 3v4M4 10h16" />
+            </svg>
+          </div>
+          <h3>Гибкий формат</h3>
+          <p>Групповые и индивидуальные занятия в удобном формате</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 4l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 9.2l5-.7L12 4z" />
+            </svg>
+          </div>
+          <h3>Видимый результат</h3>
+          <p>Вы видите прогресс уже с первых занятий</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-logo">
+        <h2>Атлант <span>| Школа плавания</span></h2>
+        <p>обучение плаванию для всех возрастов</p>
+      </div>
+
+      <div class="footer-grid">
+        
+        <div class="footer-col">
+          <h4>О школе</h4>
+          <a href="about.html">О школе</a>
+          <a href="programs.html">Направления</a>
+          <a href="coaches.html">Тренеры</a>
+          <a href="prices.html">Услуги</a>
+          <a href="schedule.html">Расписание</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <div class="contact-item">
+            <span>📞</span>
+            <span>+7 965 975-23-57</span>
+          </div>
+          <div class="contact-item">
+            <span>✉️</span>
+            <span>atlantswim55@rambler.ru</span>
+          </div>
+          
+          <div class="ip-block">
+            <p class="ip-name">ИП Тезекбаев Адильхан Маратович</p>
+            <p>ИНН: 550624287102</p>
+            <p>ОГРНИП: 322554300060051</p>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Документы</h4>
+          <a href="programs-docs.html">📄 Рабочая программа</a>
+          <div class="bank-details" style="margin-top: 15px; font-size: 11px; color: #94a3b8;">
+            <p>Расчетный счет: 000000000</p>
+            <p>БИК: 00000</p>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Обратная связь</h4>
+          <a href="contacts.html">Обратная связь</a>
+          <a href="contacts.html">Запись на пробное занятие</a>
+          <a href="https://vk.com/club215933352" target="_blank" class="vk-button">
+            📱 ВКонтакте
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+</body>
+</html>
